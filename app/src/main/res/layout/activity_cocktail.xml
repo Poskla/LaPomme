@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CocktailActivity">
+
+    <ProgressBar
+        android:id="@+id/progressbar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:indeterminateTint="#A9EA12"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lnlHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp">
+
+        <LinearLayout
+            android:id="@+id/lnlLogo"
+            android:layout_width="195dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="132dp"
+                android:layout_height="81dp"
+                android:layout_marginTop="16dp"
+                app:srcCompat="@drawable/foto_logo_app__1_" />
+
+            <TextView
+                android:id="@+id/txtLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/beth_ellen"
+                android:text="LaPomme"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnlSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="73dp"
+                android:hint="Search"
+                android:inputType="text"
+                android:maxLines="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="376dp"
+        android:layout_height="655dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/progressbar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnlHeader"
+        app:layout_constraintVertical_bias="0.515">
+
+        <ImageView
+            android:id="@+id/imgCocktailInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtAlc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtIng1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtIng2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtIng3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtIng4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtInst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

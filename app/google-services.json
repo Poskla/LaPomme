@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "130160296198",
+    "project_id": "lapomme-3a31e",
+    "storage_bucket": "lapomme-3a31e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130160296198:android:0693c49736819d063bde87",
+        "android_client_info": {
+          "package_name": "ar.edu.uade.lapomme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130160296198-j78pqlml84jhsfh5ja3foeujnph4ndtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.edu.uade.lapomme",
+            "certificate_hash": "8e38d27a9fa3d874bed7cd17568d0155f3b49b05"
+          }
+        },
+        {
+          "client_id": "130160296198-pn73j98vjfviqj7e4fpeml4sil7i7i7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcEopjeY-JukT5N2nLY5a0xuszfREiNcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130160296198-pn73j98vjfviqj7e4fpeml4sil7i7i7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
