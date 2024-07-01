@@ -1,16 +1,16 @@
 package ar.edu.uade.lapomme.data.dbLocal
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Database(
     entities = [CocktailLocal::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDataBase : RoomDatabase() {

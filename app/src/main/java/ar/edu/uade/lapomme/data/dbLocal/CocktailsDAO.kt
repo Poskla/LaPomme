@@ -5,15 +5,14 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ar.edu.uade.lapomme.model.Cocktail
 
 @Dao
 interface CocktailsDAO {
     @Query("SELECT * FROM cocktails")
     fun getAll() : List<CocktailLocal>
 
-    @Query("SELECT * FROM cocktails WHERE strDrink = :strDrink LIMIT 1")
-    fun getByPK(strDrink: String) : CocktailLocal
+    @Query("SELECT * FROM cocktails WHERE idDrink = :idDrink LIMIT 1")
+    fun getByPK(idDrink: String) : CocktailLocal
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(vararg cocktail: CocktailLocal)

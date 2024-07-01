@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.edu.uade.lapomme.R
 import ar.edu.uade.lapomme.model.Cocktail
 import com.bumptech.glide.Glide
+import java.util.Locale
 
 class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     var items: MutableList<Cocktail> = ArrayList<Cocktail>()
+    var itemsBusq: MutableList<Cocktail> = ArrayList<Cocktail>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cocktail_item, parent, false)
@@ -38,6 +40,36 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
             intent.putExtra("id", id)
             holder.itemView.context.startActivity(intent)
         }
+    }
+
+    fun showItems(List: ArrayList<Cocktail>) {
+        this.itemsBusq = List
+        items.addAll(itemsBusq)
+        notifyDataSetChanged()
+    }
+
+    fun searchItems(busqueda: String) {
+        items.clear()
+        if (busqueda.isEmpty()) {
+            items.addAll(itemsBusq)
+        } else {
+            val searchText = busqueda.lowercase(Locale.getDefault())
+            for (item in itemsBusq) {
+                if (item.strDrink.lowercase(Locale.getDefault()).contains(searchText)) {
+                    items.add(item)
+                }
+                if (item.idDrink == searchText) {
+                    items.add(item)
+                }
+                if (item.strIngredient1.lowercase(Locale.getDefault()).contains(searchText)) {
+                    items.add(item)
+                }
+                if (item.strIngredient2.lowercase(Locale.getDefault()).contains(searchText)) {
+                    items.add(item)
+                }
+            }
+        }
+        notifyDataSetChanged()
     }
 
     fun Update(lista: MutableList<Cocktail>) {

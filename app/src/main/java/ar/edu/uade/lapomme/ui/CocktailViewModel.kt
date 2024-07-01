@@ -1,5 +1,6 @@
 package ar.edu.uade.lapomme.ui
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,16 +19,52 @@ class CocktailViewModel : ViewModel() {
     private val coroutineContext: CoroutineContext = newSingleThreadContext("cocktail")
     private val scope = CoroutineScope(coroutineContext)
 
-    fun init(id: String) {
+    fun init(id: String, context: Context) {
         scope.launch {
             kotlin.runCatching {
-                cocktailRepo.getCocktailbyid(id)
+                cocktailRepo.getCocktailbyid(id, context)
             }.onSuccess {
                 Log.d("THECOCKTAILDBAPI", "Cocktail Info onSuccess")
                 cocktail.postValue(it)
                 Log.d("THECOCKTAILDBAPI", it.toString())
             }.onFailure {
                 Log.e("THECOCKTAILDBAPI", "Cocktail Info Error: " + it)
+            }
+        }
+    }
+
+    fun addFav(id: String) {
+        scope.launch {
+            kotlin.runCatching {
+                cocktailRepo.addFav(id)
+            }.onSuccess {
+                Log.d("THECOCKTAILDBAPI", "Cocktail CheckFav onSuccess")
+            }.onFailure {
+                Log.e("THECOCKTAILDBAPI", "Cocktail CheckFav Error: " + it)
+            }
+        }
+    }
+
+    fun deleteFav(id: String) {
+        scope.launch {
+            kotlin.runCatching {
+                cocktailRepo.deleteFav(id)
+            }.onSuccess {
+                Log.d("THECOCKTAILDBAPI", "Cocktail DeleteFav onSuccess")
+            }.onFailure {
+                Log.e("THECOCKTAILDBAPI", "Cocktail DeleteFav Error: " + it)
+            }
+        }
+    }
+
+    fun getCocktailsDB() {
+        scope.launch {
+            kotlin.runCatching {
+                cocktailRepo.getCocktailsDB()
+            }.onSuccess {
+                Log.d("THECOCKTAILDBAPI", "Cocktail GetCocktailsDB Firestore onSuccess")
+            }.onFailure {
+                Log.e("THECOCKTAILDBAPI", "Cocktail GetCocktailsDB Firestore Error: " + it)
             }
         }
     }

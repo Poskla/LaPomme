@@ -70,14 +70,21 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
+            <Button
+                android:id="@+id/btnFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00BCD4"
+                android:text="Favoritos"
+                android:textSize="20sp" />
+
+            <SearchView
                 android:id="@+id/txtSearch"
                 android:layout_width="match_parent"
-                android:layout_height="73dp"
-                android:hint="Search"
-                android:inputType="text"
-                android:maxLines="1" />
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

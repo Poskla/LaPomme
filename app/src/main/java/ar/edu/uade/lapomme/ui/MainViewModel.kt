@@ -15,7 +15,7 @@ class MainViewModel : ViewModel() {
     val cocktailRepo: CocktailsRepository = CocktailsRepository()
     var cocktails: MutableLiveData<ArrayList<Cocktail>> = MutableLiveData<ArrayList<Cocktail>>()
 
-    var name = "gin"
+    var name = "e"
 
     private val coroutineContext: CoroutineContext = newSingleThreadContext("tragos")
     private val scope = CoroutineScope(coroutineContext)
@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
     fun init(context: MainActivity) {
         scope.launch {
             kotlin.runCatching {
-                cocktailRepo.getCocktailsbyname(name)
+                cocktailRepo.getCocktailsbyname(name, context)
             }.onSuccess {
                 Log.d("THECOCKTAILDBAPI", "Cocktails Main onSuccess")
                 cocktails.postValue(it)

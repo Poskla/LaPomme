@@ -3,6 +3,8 @@ package ar.edu.uade.lapomme.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -13,13 +15,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import ar.edu.uade.lapomme.R
+import ar.edu.uade.lapomme.data.CocktailsDataSource
 import com.bumptech.glide.Glide
 
 class CocktailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CocktailViewModel
     private lateinit var lnlLogo: LinearLayout
-    lateinit var pb: ProgressBar
+    private lateinit var pb: ProgressBar
     private lateinit var img: ImageView
     private lateinit var idTrago: TextView
     private lateinit var name: TextView
@@ -29,6 +32,9 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var ing3: TextView
     private lateinit var ing4: TextView
     private lateinit var inst: TextView
+    private lateinit var add: Button
+    private lateinit var del: Button
+    private lateinit var fav: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +46,32 @@ class CocktailActivity : AppCompatActivity() {
             insets
         }
 
+        val id = intent.getStringExtra("id")!!
+
         lnlLogo = findViewById(R.id.lnlLogo)
-        pb = findViewById(R.id.progressbar2)
 
         lnlLogo.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-        val id = intent.getStringExtra("id")!!
+        add = findViewById(R.id.btnAdd)
+        del = findViewById(R.id.btnDel)
+        fav = findViewById(R.id.btnFav)
 
+        add.setOnClickListener{
+            viewModel.addFav(id)
+        }
+
+        del.setOnClickListener{
+            viewModel.deleteFav(id)
+        }
+
+        fav.setOnClickListener{
+            viewModel.getCocktailsDB()
+        }
+
+        pb = findViewById(R.id.progressbar2)
         img = findViewById(R.id.imgCocktailInfo)
         idTrago = findViewById(R.id.txtId)
         name = findViewById(R.id.txtName)
@@ -78,7 +100,7 @@ class CocktailActivity : AppCompatActivity() {
                 .into(img)
         }
 
-        viewModel.init(id)
+        viewModel.init(id, this)
         pb.visibility = View.VISIBLE
     }
 }
