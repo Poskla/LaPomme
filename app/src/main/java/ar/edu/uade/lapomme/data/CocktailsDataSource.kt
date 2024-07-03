@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class CocktailsDataSource {
@@ -19,6 +20,7 @@ class CocktailsDataSource {
         private val API_BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
         private val api : CocktailsAPI
         private var db = FirebaseFirestore.getInstance()
+        private var list: MutableList<Cocktail> = ArrayList<Cocktail>()
 
         init {
             api = Retrofit.Builder()
@@ -120,21 +122,6 @@ class CocktailsDataSource {
         suspend fun getCocktailbyid(id: String, context: Context) : Cocktail? {
             Log.d("THECOCKTAILDBAPI", "Tragos DataSource Getbyid")
 
-            // Traigo la información de Firestore
-           /* var c = suspendCoroutine<Cocktail> { continuation ->
-                db.collection("Favoritos").document(id).get().addOnCompleteListener{
-                    if (it.isSuccessful){
-                        var fav = it.result.toObject(Cocktail::class.java)
-                        if (fav != null) {
-                            continuation.resume(fav)
-                        }
-                    }
-                }
-            }
-            if (c != null) {
-                return c
-            }*/
-
             // Traigo la información de la API
             var result = api.getCocktailbyid(id).execute()
 
@@ -150,7 +137,7 @@ class CocktailsDataSource {
         }
 
         suspend fun addFav(id: String) {
-            Log.d("THECOCKTAILDBAPI", "Cocktails CheckFav")
+            Log.d("THECOCKTAILDBAPI", "Cocktails AddFav")
 
             var result = api.getCocktailbyid(id).execute()
             val cocktails = result.body()?.drinks
@@ -173,14 +160,21 @@ class CocktailsDataSource {
             Log.d("THECOCKTAILDBAPI", "Se eliminó de favoritos correctamente.")
         }
 
-        suspend fun getCocktailsDB(){
-            var cocktail = suspendCoroutine<Cocktail> { continuation ->
-                db.collectionGroup("Favoritos").get().addOnCompleteListener{
+        suspend fun getCocktailsDB() : ArrayList<Cocktail>{
+            return suspendCoroutine { continuation ->
+                db.collection("Favoritos").get().addOnCompleteListener{
                     if (it.isSuccessful){
-                        var c = it.result.toObjects(Cocktail::class.java)
-                        for (cocktail in c) {
-                            continuation.resume(cocktail)
+                        var list = ArrayList<Cocktail>()
+                        if (it.result != null) {
+                            for (elem in it.result) {
+                                var c = elem.toObject(Cocktail::class.java)
+                                list.add(c)
+                            }
                         }
+                        Log.e("THECOCKTAILDBAPI", "GetCocktailsDB exitoso.")
+                        continuation.resume(list)
+                    } else {
+                        continuation.resumeWithException(it.exception ?: Exception("GetCocktailsDB fallido."))
                     }
                 }
             }

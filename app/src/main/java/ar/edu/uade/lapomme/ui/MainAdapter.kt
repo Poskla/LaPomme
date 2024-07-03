@@ -67,6 +67,9 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
                 if (item.strIngredient2.lowercase(Locale.getDefault()).contains(searchText)) {
                     items.add(item)
                 }
+                if (item.strIngredient3.lowercase(Locale.getDefault()).contains(searchText)) {
+                    items.add(item)
+                }
             }
         }
         notifyDataSetChanged()
@@ -74,6 +77,6 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     fun Update(lista: MutableList<Cocktail>) {
         items = lista
-        this.notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 }

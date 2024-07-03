@@ -7,7 +7,6 @@ import ar.edu.uade.lapomme.model.Cocktail
 class CocktailsRepository {
 
     suspend fun getCocktailsByGlass(glass: String, context: Context) : ArrayList<Cocktail> {
-        Log.d("THECOCKTAILDBAPI", "Cocktails repo")
         return CocktailsDataSource.getCocktailsByGlass(glass, context)
     }
 
@@ -31,7 +30,7 @@ class CocktailsRepository {
         return CocktailsDataSource.deleteFav(id)
     }
 
-    suspend fun getCocktailsDB() {
+    suspend fun getCocktailsDB() : ArrayList<Cocktail> {
         return CocktailsDataSource.getCocktailsDB()
     }
 }

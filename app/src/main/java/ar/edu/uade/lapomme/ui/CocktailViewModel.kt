@@ -56,16 +56,4 @@ class CocktailViewModel : ViewModel() {
             }
         }
     }
-
-    fun getCocktailsDB() {
-        scope.launch {
-            kotlin.runCatching {
-                cocktailRepo.getCocktailsDB()
-            }.onSuccess {
-                Log.d("THECOCKTAILDBAPI", "Cocktail GetCocktailsDB Firestore onSuccess")
-            }.onFailure {
-                Log.e("THECOCKTAILDBAPI", "Cocktail GetCocktailsDB Firestore Error: " + it)
-            }
-        }
-    }
 }

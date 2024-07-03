@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -34,7 +35,6 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var inst: TextView
     private lateinit var add: Button
     private lateinit var del: Button
-    private lateinit var fav: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,18 +57,15 @@ class CocktailActivity : AppCompatActivity() {
 
         add = findViewById(R.id.btnAdd)
         del = findViewById(R.id.btnDel)
-        fav = findViewById(R.id.btnFav)
 
         add.setOnClickListener{
             viewModel.addFav(id)
+            Toast.makeText(this, "Se agregó el elemento a favoritos.", Toast.LENGTH_LONG).show()
         }
 
         del.setOnClickListener{
             viewModel.deleteFav(id)
-        }
-
-        fav.setOnClickListener{
-            viewModel.getCocktailsDB()
+            Toast.makeText(this, "Se eliminó el elemento de favoritos.", Toast.LENGTH_LONG).show()
         }
 
         pb = findViewById(R.id.progressbar2)

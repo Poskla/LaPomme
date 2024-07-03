@@ -20,10 +20,16 @@ class MainViewModel : ViewModel() {
     private val coroutineContext: CoroutineContext = newSingleThreadContext("tragos")
     private val scope = CoroutineScope(coroutineContext)
 
-    fun init(context: MainActivity) {
+    fun init(context: MainActivity, fav: Boolean) {
         scope.launch {
             kotlin.runCatching {
-                cocktailRepo.getCocktailsbyname(name, context)
+                if (fav){
+                    Log.d("THECOCKTAILDBAPI", "GetCocktailsDB")
+                    cocktailRepo.getCocktailsDB()
+                }
+                else {
+                    cocktailRepo.getCocktailsbyname(name, context)
+                }
             }.onSuccess {
                 Log.d("THECOCKTAILDBAPI", "Cocktails Main onSuccess")
                 cocktails.postValue(it)
