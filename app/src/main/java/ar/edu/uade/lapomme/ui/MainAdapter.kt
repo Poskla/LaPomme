@@ -43,6 +43,7 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
     }
 
     fun showItems(List: ArrayList<Cocktail>) {
+        items.clear()
         this.itemsBusq = List
         items.addAll(itemsBusq)
         notifyDataSetChanged()

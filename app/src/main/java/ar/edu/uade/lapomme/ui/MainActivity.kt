@@ -60,21 +60,18 @@ class MainActivity : AppCompatActivity() {
             pb.visibility = View.INVISIBLE
         }
 
-        viewModel.init(this, false)
-        pb.visibility = View.VISIBLE
-
         fav = findViewById(R.id.btnFav)
 
         fav.setOnClickListener{
-            val favList = true
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("SelectedItem", favList)
-            startActivity(intent)
-            finish()
+            viewModel.fav = true
+            viewModel.init(this)
         }
 
         firebaseAuth = FirebaseAuth.getInstance()
         checkUser()
+
+        viewModel.init(this)
+        pb.visibility = View.VISIBLE
     }
 
     private fun checkUser() {

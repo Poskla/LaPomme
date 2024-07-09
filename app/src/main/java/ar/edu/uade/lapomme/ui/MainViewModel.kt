@@ -9,27 +9,42 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlin.coroutines.CoroutineContext
+import kotlin.properties.Delegates
 
 class MainViewModel : ViewModel() {
 
     val cocktailRepo: CocktailsRepository = CocktailsRepository()
     var cocktails: MutableLiveData<ArrayList<Cocktail>> = MutableLiveData<ArrayList<Cocktail>>()
 
+    var fav: Boolean = false
     var name = "e"
 
     private val coroutineContext: CoroutineContext = newSingleThreadContext("tragos")
     private val scope = CoroutineScope(coroutineContext)
 
-    fun init(context: MainActivity, fav: Boolean) {
+    fun init(context: MainActivity) {
         scope.launch {
             kotlin.runCatching {
                 if (fav){
-                    Log.d("THECOCKTAILDBAPI", "GetCocktailsDB")
                     cocktailRepo.getCocktailsDB()
                 }
-                else {
+                else{
                     cocktailRepo.getCocktailsbyname(name, context)
                 }
+            }.onSuccess {
+                Log.d("THECOCKTAILDBAPI", "Cocktails Main onSuccess")
+                cocktails.postValue(it)
+                Log.d("THECOCKTAILDBAPI", it[0].toString())
+            }.onFailure {
+                Log.e("THECOCKTAILDBAPI", "Cocktails Main Error: " + it)
+            }
+        }
+    }
+
+    fun getCocktailsDB() {
+        scope.launch {
+            kotlin.runCatching {
+                cocktailRepo.getCocktailsDB()
             }.onSuccess {
                 Log.d("THECOCKTAILDBAPI", "Cocktails Main onSuccess")
                 cocktails.postValue(it)

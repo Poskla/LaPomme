@@ -6,8 +6,12 @@ import ar.edu.uade.lapomme.data.dbLocal.AppDataBase
 import ar.edu.uade.lapomme.data.dbLocal.toCocktailList
 import ar.edu.uade.lapomme.data.dbLocal.toCocktailLocal
 import ar.edu.uade.lapomme.model.Cocktail
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.resume
@@ -160,21 +164,38 @@ class CocktailsDataSource {
             Log.d("THECOCKTAILDBAPI", "Se eliminó de favoritos correctamente.")
         }
 
-        suspend fun getCocktailsDB() : ArrayList<Cocktail>{
-            return suspendCoroutine { continuation ->
-                db.collection("Favoritos").get().addOnCompleteListener{
-                    if (it.isSuccessful){
-                        var list = ArrayList<Cocktail>()
-                        if (it.result != null) {
-                            for (elem in it.result) {
-                                var c = elem.toObject(Cocktail::class.java)
-                                list.add(c)
-                            }
+        /*fun getCocktailsDB() : ArrayList<Cocktail> {
+            Log.d("THECOCKTAILDBAPI", "GetCocktailsDB")
+            var tragos = ArrayList<Cocktail>()
+
+            var c = db.collectionGroup("Favoritos").get()
+
+            if (c.isSuccessful) {
+                var cocktails = c.result.toObjects(Cocktail::class.java)
+                tragos.addAll(cocktails)
+                Log.d("THECOCKTAILDBAPI", "GetCocktailsDB exitoso")
+            } else {
+                Log.d("THECOCKTAILDBAPI", "GetCocktailsDB fallido")
+            }
+
+            return tragos
+        }*/
+
+        suspend fun getCocktailsDB() : ArrayList<Cocktail>
+        {
+            return suspendCancellableCoroutine { continuation ->
+                db.collection("Favoritos").get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val lista = ArrayList<Cocktail>()
+                        for (document in task.result) {
+                            val c = document.toObject(Cocktail::class.java)
+                            lista.add(c)
                         }
-                        Log.e("THECOCKTAILDBAPI", "GetCocktailsDB exitoso.")
-                        continuation.resume(list)
+                        Log.d("THECOCKTAILDBAPI", "GetCocktailsDB exitoso")
+                        continuation.resume(lista)
                     } else {
-                        continuation.resumeWithException(it.exception ?: Exception("GetCocktailsDB fallido."))
+                        Log.d("THECOCKTAILDBAPI", "GetCocktailsDB fallido")
+                        continuation.resumeWithException(task.exception ?: Exception("Error"))
                     }
                 }
             }
