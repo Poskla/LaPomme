@@ -41,7 +41,7 @@
         tools:layout_editor_absoluteX="1dp">
 
         <LinearLayout
-            android:id="@+id/lnlLogo"
+            android:id="@+id/lnLogo"
             android:layout_width="195dp"
             android:layout_height="match_parent"
             android:gravity="center"

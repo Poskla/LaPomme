@@ -6,17 +6,13 @@ import ar.edu.uade.lapomme.data.dbLocal.AppDataBase
 import ar.edu.uade.lapomme.data.dbLocal.toCocktailList
 import ar.edu.uade.lapomme.data.dbLocal.toCocktailLocal
 import ar.edu.uade.lapomme.model.Cocktail
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.tasks.await
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class CocktailsDataSource {
 
@@ -24,7 +20,6 @@ class CocktailsDataSource {
         private val API_BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
         private val api : CocktailsAPI
         private var db = FirebaseFirestore.getInstance()
-        private var list: MutableList<Cocktail> = ArrayList<Cocktail>()
 
         init {
             api = Retrofit.Builder()
@@ -33,7 +28,7 @@ class CocktailsDataSource {
                 .build().create(CocktailsAPI::class.java)
         }
 
-        suspend fun getCocktailsByGlass(glass: String, context: Context) : ArrayList<Cocktail> {
+        /*suspend fun getCocktailsByGlass(glass: String, context: Context) : ArrayList<Cocktail> {
             Log.d("THECOCKTAILDBAPI", "Tragos DataSource GetByGlass")
 
             // Traigo la información guardada localmente
@@ -61,7 +56,7 @@ class CocktailsDataSource {
                 Log.e("THECOCKTAILDBAPI", "Tragos DataSource GetByGlass Error: " + result.message())
                 ArrayList<Cocktail>()
             }
-        }
+        }*/
 
         suspend fun getCocktailsbyname(name: String, context: Context) : ArrayList<Cocktail> {
             Log.d("THECOCKTAILDBAPI", "Tragos DataSource Getbyname")
@@ -93,7 +88,7 @@ class CocktailsDataSource {
             }
         }
 
-        suspend fun getCocktailsbyingredient(ingredient: String, context: Context) : ArrayList<Cocktail> {
+        /*suspend fun getCocktailsbyingredient(ingredient: String, context: Context) : ArrayList<Cocktail> {
             Log.d("THECOCKTAILDBAPI", "Tragos DataSource Getbyingredient")
 
             // Traigo la información guardada localmente
@@ -121,9 +116,9 @@ class CocktailsDataSource {
                 Log.e("THECOCKTAILDBAPI", "Tragos DataSource Getbyingredient API Error: " + result.message())
                 ArrayList<Cocktail>()
             }
-        }
+        }*/
 
-        suspend fun getCocktailbyid(id: String, context: Context) : Cocktail? {
+        fun getCocktailbyid(id: String, context: Context) : Cocktail? {
             Log.d("THECOCKTAILDBAPI", "Tragos DataSource Getbyid")
 
             // Traigo la información de la API
@@ -140,7 +135,8 @@ class CocktailsDataSource {
             }
         }
 
-        suspend fun addFav(id: String) {
+        fun addFav(id: String) {
+            // Con un botón agrego el trago a Favoritos en Firestore
             Log.d("THECOCKTAILDBAPI", "Cocktails AddFav")
 
             var result = api.getCocktailbyid(id).execute()
@@ -152,7 +148,8 @@ class CocktailsDataSource {
             Log.d("THECOCKTAILDBAPI", "Se agregó a favoritos correctamente.")
         }
 
-        suspend fun deleteFav(id: String) {
+        fun deleteFav(id: String) {
+            // Con un botón elimino el trago de Favoritos en Firestore
             Log.d("THECOCKTAILDBAPI", "Cocktails DeleteFav")
 
             var result = api.getCocktailbyid(id).execute()
@@ -164,38 +161,21 @@ class CocktailsDataSource {
             Log.d("THECOCKTAILDBAPI", "Se eliminó de favoritos correctamente.")
         }
 
-        /*fun getCocktailsDB() : ArrayList<Cocktail> {
-            Log.d("THECOCKTAILDBAPI", "GetCocktailsDB")
-            var tragos = ArrayList<Cocktail>()
-
-            var c = db.collectionGroup("Favoritos").get()
-
-            if (c.isSuccessful) {
-                var cocktails = c.result.toObjects(Cocktail::class.java)
-                tragos.addAll(cocktails)
-                Log.d("THECOCKTAILDBAPI", "GetCocktailsDB exitoso")
-            } else {
-                Log.d("THECOCKTAILDBAPI", "GetCocktailsDB fallido")
-            }
-
-            return tragos
-        }*/
-
         suspend fun getCocktailsDB() : ArrayList<Cocktail>
         {
             return suspendCancellableCoroutine { continuation ->
-                db.collection("Favoritos").get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                db.collection("Favoritos").get().addOnCompleteListener {
+                    if (it.isSuccessful) {
                         val lista = ArrayList<Cocktail>()
-                        for (document in task.result) {
-                            val c = document.toObject(Cocktail::class.java)
+                        for (id in it.result) {
+                            val c = id.toObject(Cocktail::class.java)
                             lista.add(c)
                         }
                         Log.d("THECOCKTAILDBAPI", "GetCocktailsDB exitoso")
                         continuation.resume(lista)
                     } else {
                         Log.d("THECOCKTAILDBAPI", "GetCocktailsDB fallido")
-                        continuation.resumeWithException(task.exception ?: Exception("Error"))
+                        continuation.resumeWithException(it.exception ?: Exception("Error"))
                     }
                 }
             }

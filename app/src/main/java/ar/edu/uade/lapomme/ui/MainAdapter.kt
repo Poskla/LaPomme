@@ -4,7 +4,6 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.uade.lapomme.R
 import ar.edu.uade.lapomme.model.Cocktail
@@ -73,11 +72,6 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
                 }
             }
         }
-        notifyDataSetChanged()
-    }
-
-    fun Update(lista: MutableList<Cocktail>) {
-        items = lista
         notifyDataSetChanged()
     }
 }

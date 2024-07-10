@@ -7,20 +7,20 @@ import retrofit2.Call
 
 interface CocktailsAPI {
 
-    @GET("filter.php")
+    /*@GET("filter.php")
     fun getCocktailsByGlass(
         @Query("g") glass: String
-    ) : Call<CocktailResponse>
+    ) : Call<CocktailResponse>*/
 
     @GET("search.php")
     fun getCocktailsbyname(
         @Query("s") name: String
     ) : Call<CocktailResponse>
 
-    @GET("search.php")
+    /*@GET("search.php")
     fun getCocktailsbyingredient(
         @Query("i") ingredient: String
-    ) : Call<CocktailResponse>
+    ) : Call<CocktailResponse>*/
 
     @GET("lookup.php")
     fun getCocktailbyid(

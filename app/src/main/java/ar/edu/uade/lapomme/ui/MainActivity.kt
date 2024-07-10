@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var rvCocktails: RecyclerView
     private lateinit var adapter: MainAdapter
+    private lateinit var lnLogo: LinearLayout
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var search : SearchView
     private lateinit var pb: ProgressBar
@@ -65,6 +67,13 @@ class MainActivity : AppCompatActivity() {
         fav.setOnClickListener{
             viewModel.fav = true
             viewModel.init(this)
+        }
+
+        lnLogo = findViewById(R.id.lnLogo)
+
+        lnLogo.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         firebaseAuth = FirebaseAuth.getInstance()

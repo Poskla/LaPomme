@@ -40,18 +40,4 @@ class MainViewModel : ViewModel() {
             }
         }
     }
-
-    fun getCocktailsDB() {
-        scope.launch {
-            kotlin.runCatching {
-                cocktailRepo.getCocktailsDB()
-            }.onSuccess {
-                Log.d("THECOCKTAILDBAPI", "Cocktails Main onSuccess")
-                cocktails.postValue(it)
-                Log.d("THECOCKTAILDBAPI", it[0].toString())
-            }.onFailure {
-                Log.e("THECOCKTAILDBAPI", "Cocktails Main Error: " + it)
-            }
-        }
-    }
 }
